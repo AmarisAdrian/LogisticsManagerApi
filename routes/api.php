@@ -22,9 +22,11 @@ Route::prefix('v1')->group(function () {
     // Rutas relacionadas a clientes
     Route::prefix('clientes')->group(function () {
         Route::get('/', [ClienteController::class, 'userList'])->name('api.v1.clientes.userList'); // Listar clientes
-       /* Route::get('/{id}', [ClienteController::class, 'show'])->name('api.v1.clientes.show'); // Obtener cliente por ID
-        Route::post('/', [ClienteController::class, 'store'])->name('api.v1.clientes.store'); // Crear cliente
-        Route::put('/{id}', [ClienteController::class, 'update'])->name('api.v1.clientes.update'); // Actualizar cliente
-        Route::delete('/{id}', [ClienteController::class, 'destroy'])->name('api.v1.clientes.destroy'); // Eliminar cliente*/
+        Route::post('/crear-cliente', [ClienteController::class, 'addCreate'])->name('api.v1.clientes.addCreate');
+        Route::get('/tipo-cliente', [ClienteController::class, 'getListTipoUsuario'])->name('api.v1.utils.getListTipoUsuario'); 
+        Route::get('/{id}', [ClienteController::class, 'getClienteById'])->name('api.v1.clientes.getClienteById');
+        Route::put('/editar-cliente/{id}', [ClienteController::class, 'update'])->name('api.v1.clientes.update');
+         // Crear cliente
+      /*  Route::delete('/{id}', [ClienteController::class, 'destroy'])->name('api.v1.clientes.destroy'); // Eliminar cliente*/
     });
 });

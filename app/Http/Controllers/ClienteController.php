@@ -7,6 +7,7 @@ use App\Models\Cliente as Cliente;
 use Illuminate\Support\Facades\Validator;
 use App\Services\ClienteService;
 use App\Traits\ApiResponse;
+Use App\Models\TipoCliente;
 
 class ClienteController extends Controller
 {
@@ -21,9 +22,7 @@ class ClienteController extends Controller
     public function userList(request $request){
           try{
 
-            //SOlo va a filtrar por estos 2 elementos
             $filters = $request->only(['nombre', 'email',]);
-            // Delegar la lógica al servicio
             $validator = $this->validateData($filters,'validateDataList');
             if($validator["errors"]){
                 return response()->json(['status' => 'error','message' => $validator["errors"]], 500);
@@ -37,9 +36,40 @@ class ClienteController extends Controller
         }
     }
     public function addCreate(request $request){
-        $filters = $request->only(['nombre_completo','direccion','telefono','email']);
+        $data = $request->only(['nombre_completo','direccion','telefono','email','id_tipo_cliente']);
+        return $this->sendAddCliente($data);
     }
-    private static function validateData($data,$validacion){
+    public function update(request $request){
+        $data = $request->only(['id_cliente','nombre_completo','direccion','telefono','email','id_tipo_cliente']);
+        return $this->sendUpdateCliente($data);
+    }
+    public function sendUpdateCliente($data){
+        $validator = Validator::make($data,Cliente::$validate);
+        if($validator->fails()){
+            return $this->errorResponse('Ha ocurrido el siguiente error: '.$validator->errors(),500);
+        }
+        $cliente = Cliente::find($data['id_cliente']);   
+        if (!$cliente) {
+            return $this->errorResponse('El cliente no existe',500);
+        }
+        $cliente->fill($data);
+        $cliente->save();
+        return $this->successResponse($cliente, 'Cliente actualizado exitosamente',201);
+    }
+    private function sendAddCliente($data){
+        $validator = Validator::make($data,Cliente::$validate);
+        if($validator->fails()){
+            return $this->errorResponse('Ha ocurrido el siguiente error: '.$validator->errors(),500);
+        }
+        $exists = Cliente::where("email",$data["email"])->exists();
+        if($exists){
+            return $this->errorResponse('El email insertado se encuentra registrado',500);
+        }
+        $cliente = new Cliente($data);
+        $cliente->save();
+        return $this->successResponse($cliente, 'Cliente registrado exitosamente',201);
+    }
+    private function validateData($data,$validacion){
         $validator = Validator::make($data,Cliente::${$validacion});
         if($validator->fails()){
             return [
@@ -47,6 +77,12 @@ class ClienteController extends Controller
                 'errors'=> $validator->errors(),
             ];
         }
-
+    }
+    public function getListTipoUsuario(){
+        return TipoCliente::get();
+    }
+    public function getClienteById($id){
+        $cliente = Cliente::where("id_cliente",$id)->first();
+        return $this->successResponse($cliente, 'Clientes listado correctamente');
     }
 }
