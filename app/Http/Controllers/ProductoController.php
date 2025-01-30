@@ -64,9 +64,9 @@ class ProductoController extends Controller
     }
     public function update(request $request){
         $data = $request->only(['id_producto','nombre','descripcion','id_tipo_producto','fecha_creacion']);
-        return $this->sendUpdateCliente($data);
+        return $this->sendUpdateProducto($data);
     }
-    public function sendUpdateCliente($data){
+    public function sendUpdateProducto($data){
         $validator = Validator::make($data,Producto::$validate);
         if($validator->fails()){
             return $this->errorResponse('Ha ocurrido el siguiente error: '.$validator->errors(),500);
