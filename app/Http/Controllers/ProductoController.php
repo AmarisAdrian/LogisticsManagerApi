@@ -77,7 +77,7 @@ class ProductoController extends Controller
         }
         $producto->fill($data);
         $producto->save();
-        return $this->successResponse($producto, 'Productos actualizado exitosamente',201);
+        return $this->successResponse($producto,'Productos actualizado exitosamente',201);
     }
 
 
