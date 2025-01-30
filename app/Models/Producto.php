@@ -43,6 +43,16 @@ class Producto extends Model
 		'fecha_creacion'
 	];
 
+	public  static $validateDataList = [
+		'nombre' => 'string|nullable|max:255',
+        'descripcion' => 'email|nullable|max:255',
+	];
+	public  static $validate = [
+		'nombre' => 'string|required|max:255',
+        'descripcion' => 'string|nullable|max:255',
+		'id_tipo_producto'  => 'integer|required',
+		'fecha_creacion'  =>  'string|nullable',
+	];
 	public function tipo_producto()
 	{
 		return $this->belongsTo(TipoProducto::class, 'id_tipo_producto');

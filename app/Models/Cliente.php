@@ -41,11 +41,11 @@ class Cliente extends Model
 	];
 
 	public  static $validate = [
-		'nombre_completo' => 'required|nullable|max:255',
-        'email' => 'required|nullable|max:255',
+		'nombre_completo' => 'string|nullable|max:255',
+        'email' => 'string|nullable|max:255',
 		'direccion'  => 'string|nullable|max:255',
 		'telefono'  =>  'integer|nullable',
-		'id_tipo_cliente'  => 'required|nullable'
+		'id_tipo_cliente'  => 'integer|nullable'
 	];
 
 	public  static $validateDataList = [

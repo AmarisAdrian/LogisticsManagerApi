@@ -78,7 +78,7 @@ class ClienteController extends Controller
             ];
         }
     }
-    public function getListTipoUsuario(){
+    public function getListTipoCliente(){
         return TipoCliente::get();
     }
     public function getClienteById($id){
