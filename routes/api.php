@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\PuertoController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,7 +34,12 @@ Route::prefix('v1')->group(function () {
         Route::get('/', [ProductoController::class, 'productoList'])->name('api.v1.producto.productoList');
         Route::post('/crear-producto', [ProductoController::class, 'addCreate'])->name('api.v1.producto.addCreate');
         Route::get('/tipo-producto', [ProductoController::class, 'getListTipoProducto'])->name('api.v1.producto.getListTipoProducto'); 
-        Route::get('/{id}', [ProductoController::class, 'getProductoById'])->name('api.v1.producto.getProductoById');
         Route::put('/editar-producto/{id}', [ProductoController::class, 'update'])->name('api.v1.producto.update');
+        //rutas dinamicas
+        Route::get('/{id}', [ProductoController::class, 'getProductoById'])->name('api.v1.producto.getProductoById');
+        Route::get('/buscar-producto/{nombre}', [ProductoController::class, 'getProductoByNombre'])->name('api.v1.producto.getProductoByNombre');
     });
+    Route::prefix('puertos')->group(function () { 
+        Route::get('/puertos', [PuertoController::class, 'getPuertos'])->name('api.v1.producto.getPuertos');
+     });
 });
