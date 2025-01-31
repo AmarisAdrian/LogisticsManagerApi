@@ -20,12 +20,12 @@ class ProductoController extends Controller
     public function productoList(request $request){
         try{
 
-          $filters = $request->only(['nombre', 'descripcion',]);
+          $filters = $request->only(['nombre', 'descripcion']);
           $validator = $this->validateData($filters,'validateDataList');
           if($validator["errors"]){
               return response()->json(['status' => 'error','message' => $validator["errors"]], 500);
           }
-          $producto = $this->productoService->getFilteredClients($filters);
+          $producto = $this->productoService->getFilteredProductos($filters);
           return $this->successResponse($producto, 'Productos listados correctamente');
 
       return response()->json($producto);
@@ -60,7 +60,17 @@ class ProductoController extends Controller
     }
     public function getProductoById($id){
         $producto = Producto::where("id_producto",$id)->first();
-        return $this->successResponse($producto, 'Producto listado correctamente');
+        return $this->successResponse($producto, 'Producto listado correctamente#');
+    }
+    public function getProductoByNombre($nombre){
+        if(empty($nombre)) {
+            return $this->errorResponse('El nombre del producto no puede estar vacío.', 400);
+        }
+        $producto = $this->productoService->getFilteredProductos(['nombre' => $nombre]);
+        if (empty($producto)) {
+            return $this->errorResponse('No se encontró el producto.', 404);
+        }
+        return $this->successResponse($producto, 'Productos listados correctamente');
     }
     public function update(request $request){
         $data = $request->only(['id_producto','nombre','descripcion','id_tipo_producto','fecha_creacion']);
