@@ -41,7 +41,8 @@ class LogisticaMaritima extends Model
 		'fecha_entrega' => 'datetime',
 		'id_puerto' => 'int',
 		'precio_envio' => 'float',
-		'precio_con_descuento' => 'float'
+		'precio_con_descuento' => 'float',
+		'id_cliente'=> 'int',
 	];
 
 	protected $fillable = [
@@ -53,7 +54,21 @@ class LogisticaMaritima extends Model
 		'precio_envio',
 		'precio_con_descuento',
 		'numero_flota',
-		'numero_guia'
+		'numero_guia',
+		'id_cliente'
+	];
+	public  static $validate = [
+		'id_producto' => 'integer|required',
+        'cantidad_producto' => 'integer|required|max:255',
+		'fecha_registro'  => 'string|required',
+		'fecha_entrega'  =>  'string|required',
+		'id_puerto'  =>  'integer|required',
+		'precio_envio'  =>  'integer|required',
+		'precio_con_descuento'  =>  'integer|required',
+		'numero_flota'  =>  'string|required',
+		'numero_guia'  =>  'string|required',
+		'id_cliente'  =>  'integer|required',
+
 	];
 
 	public function producto()
