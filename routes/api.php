@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\PuertoController;
+use App\Http\Controllers\LogisticaMaritimaController;
+use App\Models\LogisticaMaritima;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,5 +43,8 @@ Route::prefix('v1')->group(function () {
     });
     Route::prefix('puertos')->group(function () { 
         Route::get('/puertos', [PuertoController::class, 'getPuertos'])->name('api.v1.producto.getPuertos');
+     });
+     Route::prefix('logistica-maritima')->group(function () { 
+        Route::post('/crear-logistica-maritima', [LogisticaMaritimaController::class, 'addCreate'])->name('api.v1.logistica_maritima.addCreate');
      });
 });
